@@ -5,27 +5,112 @@ using System.Web;
 using System.Web.Mvc;
 using VideoRental.Models;
 using VideoRental.ViewModels;
+using System.Data.Entity;
 
 namespace VideoRental.Controllers
 {
     public class MoviesController : Controller
     {
+        ApplicationDbContext _context;
+
+        // Constructor
+        public MoviesController()
+        {
+            _context = new ApplicationDbContext();
+        }
+
+        // Destructor
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
+        // GET: Movies/Index
         public ActionResult Index()
         {
-            IEnumerable<Movie> movies = GetMovies();
+            IEnumerable<Movie> movies = _context
+                .Movies
+                .Include(m => m.Genre)
+                .ToList();
 
             return View(movies);
         }
 
-        public IEnumerable<Movie> GetMovies()
+        // GET: Movies/Details/1
+        public ActionResult Details(int Id)
         {
-            IEnumerable<Movie> movies = new List<Movie>
+            Movie movie = _context
+                .Movies
+                .Include(m => m.Genre)
+                .SingleOrDefault(m => m.Id == Id);
+
+            return View(movie);
+        }
+
+        // GET: Movies/New
+        public ActionResult New()
+        {
+            IEnumerable<Genre> Genres = _context.Genres.ToList();
+            var viewModel = new MovieFormViewModel()
             {
-                new Movie { Id = 1, Name = "Shrek"},
-                new Movie { Id = 2, Name = "Wall-e"}
+                Genres = Genres
             };
 
-            return movies;
+            return View("MovieForm", viewModel);
+        }
+
+        // GET: Movies/Edit/1
+        public ActionResult Edit(int Id)
+        {
+            var movie = _context.Movies.Single(m => m.Id == Id);
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new MovieFormViewModel
+            {
+                Movie = movie,
+                Genres = _context.Genres.ToList()
+            };
+
+            return View("MovieForm", viewModel);
+        }
+
+        // POST: Movies/Save
+        [HttpPost]
+        public ActionResult Save(Movie movie)
+        {
+
+
+            if(movie.Id == 0)
+            {
+                movie.DateAdded = DateTime.Now;
+                _context.Movies.Add(movie);
+            }
+            else
+            {
+                var MovieInDb = _context.Movies.Single(m => m.Id == movie.Id);
+
+                MovieInDb.Name = movie.Name;
+                MovieInDb.ReleaseDate = movie.ReleaseDate;
+                MovieInDb.GenreId = movie.GenreId;
+                MovieInDb.NumberInStock = movie.NumberInStock;
+            }
+
+            _context.SaveChanges();
+
+            //try
+            //{
+            //    _context.SaveChanges();
+            //}
+            //catch (DbEntityValidationException e)
+            //{
+
+            //}
+
+
+            return RedirectToAction("Index", "Movies");
         }
 
         // GET: Movies/Random
@@ -51,11 +136,6 @@ namespace VideoRental.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Edit(int id)
-        {
-            return Content("Id=" + id);
-        }
-
         //public ActionResult Index(int? pageIndex, string sortBy)
         //{
         //    if (!pageIndex.HasValue)
@@ -71,6 +151,17 @@ namespace VideoRental.Controllers
         public ActionResult ByReleaseDate(int year, int month)
         {
             return Content(year + "/" + month);
+        }
+
+        public IEnumerable<Movie> GetMovies()
+        {
+            IEnumerable<Movie> movies = new List<Movie>
+            {
+                new Movie { Id = 1, Name = "Shrek"},
+                new Movie { Id = 2, Name = "Wall-e"}
+            };
+
+            return movies;
         }
     }
 }
