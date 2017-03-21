@@ -244,6 +244,14 @@
     <Compile Include="Migrations\201703201300147_AddReleaseDateDateAddedNumberInStockToMovie.Designer.cs">
       <DependentUpon>201703201300147_AddReleaseDateDateAddedNumberInStockToMovie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703211214141_MovieNameNotNull.cs" />
+    <Compile Include="Migrations\201703211214141_MovieNameNotNull.Designer.cs">
+      <DependentUpon>201703211214141_MovieNameNotNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703211251538_UpdateMovieDefinition.cs" />
+    <Compile Include="Migrations\201703211251538_UpdateMovieDefinition.Designer.cs">
+      <DependentUpon>201703211251538_UpdateMovieDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -382,6 +390,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703201300147_AddReleaseDateDateAddedNumberInStockToMovie.resx">
       <DependentUpon>201703201300147_AddReleaseDateDateAddedNumberInStockToMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703211214141_MovieNameNotNull.resx">
+      <DependentUpon>201703211214141_MovieNameNotNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703211251538_UpdateMovieDefinition.resx">
+      <DependentUpon>201703211251538_UpdateMovieDefinition.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

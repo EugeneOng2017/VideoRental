@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using VideoRental.Models;
 using VideoRental.ViewModels;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace VideoRental.Controllers
 {
@@ -68,9 +69,8 @@ namespace VideoRental.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new MovieFormViewModel
+            var viewModel = new MovieFormViewModel(movie)
             {
-                Movie = movie,
                 Genres = _context.Genres.ToList()
             };
 
@@ -79,9 +79,18 @@ namespace VideoRental.Controllers
 
         // POST: Movies/Save
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
+            if(!ModelState.IsValid)
+            {
+                var viewModel = new MovieFormViewModel(movie)
+                {
+                    Genres = _context.Genres.ToList()
+                };
 
+                return View("MovieForm", viewModel);
+            }
 
             if(movie.Id == 0)
             {
@@ -106,7 +115,7 @@ namespace VideoRental.Controllers
             //}
             //catch (DbEntityValidationException e)
             //{
-
+            //    Console.Write(e.Message);
             //}
 
 
