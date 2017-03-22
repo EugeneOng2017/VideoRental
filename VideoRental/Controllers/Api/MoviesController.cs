@@ -20,7 +20,6 @@ namespace VideoRental.Controllers.Api
             _context = new ApplicationDbContext();
         }
 
-
         // GET /api/GetMovies
         public IHttpActionResult GetMovies()
         {
@@ -45,6 +44,7 @@ namespace VideoRental.Controllers.Api
 
         // POST /api/CreateMovie
         [HttpPost]
+        [Authorize(Roles = RoleName.CanManageMovie)]
         public IHttpActionResult CreateMovie(MovieDto movieDto)
         {
             if(!ModelState.IsValid)
@@ -64,6 +64,7 @@ namespace VideoRental.Controllers.Api
 
         // PUT api/Movie/1
         [HttpPut]
+        [Authorize(Roles = RoleName.CanManageMovie)]
         public IHttpActionResult UpdateMovie(int id, MovieDto movieDto)
         {
             if (!ModelState.IsValid)
@@ -87,6 +88,7 @@ namespace VideoRental.Controllers.Api
 
         //DELETE api/movie/1
         [HttpDelete]
+        [Authorize(Roles = RoleName.CanManageMovie)]
         public IHttpActionResult DeleteMovie(int id)
         {
             Movie movieInDb = _context.Movies.SingleOrDefault(m => m.Id == id);
