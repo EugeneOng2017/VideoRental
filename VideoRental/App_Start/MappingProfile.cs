@@ -19,6 +19,10 @@ namespace VideoRental.App_Start
 
             Mapper.CreateMap<MovieDto, Movie>();
             Mapper.CreateMap<Movie, MovieDto>();
+
+            Mapper.CreateMap<Genre, GenreDto>();
+
+
         }
     }
 }

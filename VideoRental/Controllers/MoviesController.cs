@@ -29,12 +29,7 @@ namespace VideoRental.Controllers
         // GET: Movies/Index
         public ActionResult Index()
         {
-            IEnumerable<Movie> movies = _context
-                .Movies
-                .Include(m => m.Genre)
-                .ToList();
-
-            return View(movies);
+            return View();
         }
 
         // GET: Movies/Details/1
