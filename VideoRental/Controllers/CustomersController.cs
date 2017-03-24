@@ -9,6 +9,7 @@ using VideoRental.ViewModels;
 
 namespace VideoRental.Controllers
 {
+    [AllowAnonymous]
     public class CustomersController : Controller
     {
 
