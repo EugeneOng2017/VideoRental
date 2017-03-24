@@ -29,5 +29,8 @@ namespace VideoRental.Models
         [Display(Name = "Genre")]
         [Required]
         public byte GenreId { get; set; }
+
+        [Required]
+        public byte NumberAvailable { get; set; }
     }
 }

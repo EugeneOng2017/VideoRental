@@ -25,5 +25,6 @@ namespace VideoRental.Dtos
 
         [Required]
         public byte GenreId { get; set; }
+
     }
 }

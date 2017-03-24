@@ -110,6 +110,7 @@ namespace VideoRental.Controllers
                 MovieInDb.ReleaseDate = movie.ReleaseDate;
                 MovieInDb.GenreId = movie.GenreId;
                 MovieInDb.NumberInStock = movie.NumberInStock;
+                MovieInDb.NumberAvailable = movie.NumberInStock;
             }
 
             _context.SaveChanges();
